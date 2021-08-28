@@ -23,10 +23,9 @@ app.get('/notes', (req,res) =>
 );
 ///GET Route for /api/notes
 const data = require('./db/db.json');
+const { response } = require('express');
 app.get('/api/notes', (req,res) =>
     res.status(200).json(data));
-
-
 
 // POST request to add a review
 app.post('/api/notes', (req, res) => {
@@ -107,9 +106,8 @@ app.post('/api/notes', (req, res) => {
         if (err) throw err;
       });
     });
-    // Express response.status(204)
     console.log('NOTE DELETED SUCCESSFULLY')
-    res.status(204).send();
+    res.status(204).json(response);
   });
 
 
