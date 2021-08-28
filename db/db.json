@@ -2,14 +2,5 @@
     {
         "title": "Test Title",
         "text": "Test text"
-    },
-    {
-        "title": "This is a note",
-        "text": "NOTE ME"
-    },
-    {
-        "title": "THS",
-        "text": "NOTE",
-        "note_id": "0cb0"
     }
 ]
