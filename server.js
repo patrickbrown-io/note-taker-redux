@@ -1,4 +1,3 @@
-const { randomUUID } = require('crypto');
 const express = require('express');
 const fs = require('fs');
 const path = require('path')
@@ -43,7 +42,7 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
       title,
       text,
-      note_id: uuid()
+      id: uuid()
     };
     // Obtain existing reviews
     fs.readFile('./db/db.json', 'utf8', (err, data) => {
@@ -68,17 +67,53 @@ app.post('/api/notes', (req, res) => {
       }
     });
 
+
     const response = {
       status: 'success',
       body: newNote,
     };
 
     console.log(response);
-    res.status(201).json(response).send();
+    res.status(201).json(response);
   } else {
     res.status(500).json('Error in posting review');
   }
 });
+
+////DELETE
+ app.delete('/api/notes/:id', function(req, res) {
+    // Gets id number of note to delete
+    const deleteNote = req.params.id;
+
+    console.log(deleteNote);
+
+    fs.readFile('./db/db.json', (err, data) => {
+      if (err) throw err;
+
+      // Comparing each note's id to delete note
+      const parsedNotes = JSON.parse(data);
+    //   console.log(parsedNotes)
+
+      // for each function, comparing each note's id
+      for (let i = 0; i < parsedNotes.length; i++) {
+        if (parsedNotes[i].id === deleteNote) {
+          parsedNotes.splice([i], 1);
+        }
+      }
+      console.log(parsedNotes);
+      let stringData = JSON.stringify(parsedNotes);
+
+      fs.writeFile('./db/db.json', stringData, (err, data) => {
+        if (err) throw err;
+      });
+    });
+    // Express response.status(204)
+    console.log('NOTE DELETED SUCCESSFULLY')
+    res.status(204).send();
+  });
+
+
+
 
 //LISTENING
 app.listen(PORT, () =>
