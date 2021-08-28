@@ -1,6 +1,8 @@
+const { randomUUID } = require('crypto');
 const express = require('express');
 const fs = require('fs');
 const path = require('path')
+const uuid = require('./helpers/uuid');
 
 const app = express();
 
@@ -41,6 +43,7 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
       title,
       text,
+      note_id: uuid()
     };
     // Obtain existing reviews
     fs.readFile('./db/db.json', 'utf8', (err, data) => {
